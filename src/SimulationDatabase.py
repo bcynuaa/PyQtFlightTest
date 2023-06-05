@@ -14,7 +14,7 @@ import numpy as np
 from config.Name import kData_File_Format, kDefault_Simulation_Name
 
 from utils.RegularExpression import getHAndMaFromDatabaseFile
-from utils.SubDict import insertToSubDict
+from utils.SubDict import *
 
 kSkip_Rows: int = 1
 
@@ -46,15 +46,6 @@ class SimulationDatabase:
         self.database_file_list.sort()
         pass
     
-    def updateDatabaseFromSingularFile(self, database_file: str) -> None:
-        height, mach = getHAndMaFromDatabaseFile(database_file)
-        # insert the database file to the database_file_dict
-        insertToSubDict(self.database_file_dict, height, mach, database_file)
-        # insert the data to the database_dict
-        insertToSubDict(self.database_dict, height, mach, \
-            np.loadtxt(database_file, dtype=np.float, skiprows=kSkip_Rows))
-        pass
-    
     def __buildDatabase(self) -> None:
         # build the database as a dict
         # while the dict should look like: self.database_dict[height][mach] = data
@@ -62,10 +53,51 @@ class SimulationDatabase:
         # at the same time, a database_file_dict should be built
         self.database_file_dict = dict()
         self.database_dict: dict = dict()
-        for database_file in self.database_file_list:
-            # update the database from this file
+        self.updateDatabaseFromMultipleFiles(self.database_file_list)
+        pass
+    
+    def updateDatabaseFromSingularFile(self, database_file: str) -> None:
+        # get the height and mach from the database_file
+        height, mach = getHAndMaFromDatabaseFile(database_file)
+        # insert the database file to the database_file_dict
+        insertToSubDict(self.database_file_dict, height, mach, database_file)
+        # insert the data to the database_dict
+        insertToSubDict(self.database_dict, height, mach, \
+            np.loadtxt(database_file, dtype=np.float64, skiprows=kSkip_Rows))
+        if database_file not in self.database_file_list:
+            self.database_file_list.append(database_file)
+            pass
+        pass
+    
+    def updateDatabaseFromMultipleFiles(self, database_file_list: list) -> None:
+        for database_file in database_file_list:
             self.updateDatabaseFromSingularFile(database_file)
             pass
+        pass
+    
+    def getDatabaseDictKeys(self) -> list:
+        # this function is to get the database_dict's keys like: [(height1, mach1), ...]
+        return getSubDictKeys(self.database_dict)
+        pass
+    
+    def getCloestDatabaseDictKeys(self, height_in: np.float64, mach_in: np.float64) -> tuple:
+        # for height_in and mach_in may not actually in the database_dict's keys
+        # thus we need to find the cloest keys of height(H) and mach(Ma)
+        return getCloestSubDictKeys(self.database_dict, height_in, mach_in)
+        pass
+    
+    def getDatabaseDictData(self, height_in: np.float64, mach_in: np.float64) -> tuple:
+        # this function is to get the data from database_dict
+        # the return value should look like: (database, height, mach)
+        height, mach = self.getCloestDatabaseDictKeys(height_in, mach_in)
+        return (self.database_dict[height][mach], height, mach)
+        pass
+    
+    def getDatabaseFileDictData(self, height_in: np.float64, mach_in: np.float64) -> tuple:
+        # this function is to get the data from database_file_dict
+        # the return value should look like: (database_file, height, mach)
+        height, mach = self.getCloestDatabaseDictKeys(height_in, mach_in)
+        return (self.database_file_dict[height][mach], height, mach)
         pass
     
     pass
