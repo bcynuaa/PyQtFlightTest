@@ -10,3 +10,9 @@
 
 kData_File_Format: str = ".dat"
 kDefault_Simulation_Name: str = "simulation"
+kDefault_Flight_Test_Name: str = "flight_test"
+
+kScalarsList: list = ["dX", "dY", "dZ"]
+kDefault_Scalar: str = "dZ"
+
+print("config: Name.py is imported.")

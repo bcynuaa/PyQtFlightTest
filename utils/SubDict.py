@@ -5,7 +5,7 @@
  # @ author: bcynuaa
  # @ date: 2023-06-04 22:10:13
  # @ license: Mozilla Public License 2.0
- # @ description: the file contains the function to insert data to a sub-dict
+ # @ description: the file contains functions for sub-dict used in the program
  '''
  
 import numpy as np
@@ -41,3 +41,5 @@ def getCloestSubDictKeys(origin_dict: dict,\
     sub_key: np.float64 = list(origin_dict[main_key].keys())[index_sub]
     return (main_key, sub_key)
     pass
+
+print("utils: SubDict.py is imported.")

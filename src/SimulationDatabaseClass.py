@@ -30,47 +30,47 @@ class SimulationDatabase:
         pass
     
     def __findDatabaseFilesFromPath(self) -> None:
-        database_file_list: list = os.listdir(self.database_path)
-        self.database_file_list: list = []
-        for database_file in database_file_list:
+        database_files_list: list = os.listdir(self.database_path)
+        self.database_files_list: list = []
+        for database_file in database_files_list:
             # check the file format
             if database_file.startswith(kDefault_Simulation_Name) and \
                 database_file.endswith(kData_File_Format):
-                self.database_file_list.append(database_file)
+                self.database_files_list.append(database_file)
                 pass
             pass
         # join the path
-        self.database_file_list = [os.path.join(self.database_path, database_file) \
-            for database_file in self.database_file_list]
+        self.database_files_list = [os.path.join(self.database_path, database_file) \
+            for database_file in self.database_files_list]
         # sort the file list
-        self.database_file_list.sort()
+        self.database_files_list.sort()
         pass
     
     def __buildDatabase(self) -> None:
         # build the database as a dict
         # while the dict should look like: self.database_dict[height][mach] = data
         # what's more, the data should be a numpy array
-        # at the same time, a database_file_dict should be built
-        self.database_file_dict = dict()
+        # at the same time, a database_files_dict should be built
+        self.database_files_dict = dict()
         self.database_dict: dict = dict()
-        self.updateDatabaseFromMultipleFiles(self.database_file_list)
+        self.updateDatabaseFromMultipleFiles(self.database_files_list)
         pass
     
     def updateDatabaseFromSingularFile(self, database_file: str) -> None:
         # get the height and mach from the database_file
         height, mach = getHAndMaFromDatabaseFile(database_file)
-        # insert the database file to the database_file_dict
-        insertToSubDict(self.database_file_dict, height, mach, database_file)
+        # insert the database file to the database_files_dict
+        insertToSubDict(self.database_files_dict, height, mach, database_file)
         # insert the data to the database_dict
         insertToSubDict(self.database_dict, height, mach, \
             np.loadtxt(database_file, dtype=np.float64, skiprows=kSkip_Rows))
-        if database_file not in self.database_file_list:
-            self.database_file_list.append(database_file)
+        if database_file not in self.database_files_list:
+            self.database_files_list.append(database_file)
             pass
         pass
     
-    def updateDatabaseFromMultipleFiles(self, database_file_list: list) -> None:
-        for database_file in database_file_list:
+    def updateDatabaseFromMultipleFiles(self, database_files_list: list) -> None:
+        for database_file in database_files_list:
             self.updateDatabaseFromSingularFile(database_file)
             pass
         pass
@@ -94,10 +94,10 @@ class SimulationDatabase:
         pass
     
     def getDatabaseFileDictData(self, height_in: np.float64, mach_in: np.float64) -> tuple:
-        # this function is to get the data from database_file_dict
+        # this function is to get the data from database_files_dict
         # the return value should look like: (database_file, height, mach)
         height, mach = self.getCloestDatabaseDictKeys(height_in, mach_in)
-        return (self.database_file_dict[height][mach], height, mach)
+        return (self.database_files_dict[height][mach], height, mach)
         pass
     
     pass
