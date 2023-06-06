@@ -84,3 +84,5 @@ class DomainsWithGenDis:
         pass
     
     pass
+
+print("src: DomainsWithGenDisClass.py is imported.")

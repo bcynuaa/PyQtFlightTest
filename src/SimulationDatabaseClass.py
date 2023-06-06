@@ -20,6 +20,13 @@ kSkip_Rows: int = 1
 
 class SimulationDatabase:
     
+    """the class of simulation database
+    `database_path: str` -> the path of the database
+    `database_files_list: list` -> the list of the database files
+    `database_files_dict: dict` -> the dict of the database files
+    `database_dict: dict` -> the dict of the database, which is a sub-dict like `database_dict[height][mach] = data`
+    """
+    
     def __init__(self) -> None:
         pass
     
@@ -101,3 +108,5 @@ class SimulationDatabase:
         pass
     
     pass
+
+print("src: SimulationDatabaseClass.py is imported.")
