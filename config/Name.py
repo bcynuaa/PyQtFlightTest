@@ -8,6 +8,8 @@
  # @ description: the file contains the name used in the program
  '''
 
+kSplit_Line: str = "--------------------------------------------------"
+
 kData_File_Format: str = ".dat"
 kDefault_Simulation_Name: str = "simulation"
 kDefault_Flight_Test_Name: str = "flight_test"

@@ -23,12 +23,16 @@ def getHAndMaFromDatabaseFile(database_file: str) -> tuple:
     return H, Ma
     pass
 
+def getHAndMaFromSensorsFile(sensors_file: str) -> tuple:
+    return getHAndMaFromDatabaseFile(sensors_file)
+    pass
+
 def getDomainFilesList(files_list: list) -> list:
     # get the domain files list from files_list
     # while the domain file should look like
     # "domain01.dat", in which case sensitive should be ignored
     domain_files_list: list = []
-    pattern: str = re.compile(r"[Dd][Oo][Mm][Aa][Ii][Nn]\d+\." + kData_File_Format)
+    pattern: str = re.compile(r"[Dd][Oo][Mm][Aa][Ii][Nn]\d+" + kData_File_Format)
     for file in files_list:
         whether_match = re.match(pattern, file)
         if whether_match == None:

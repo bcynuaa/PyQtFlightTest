@@ -5,14 +5,14 @@
  # @ author: bcynuaa
  # @ date: 2023-06-05 17:18:03
  # @ license: Mozilla Public License 2.0
- # @ description: this class of domains with general displacement
+ # @ description: the class of domains with general displacement
  # ! gen_dis means general displacement
  '''
  
 import os
 import numpy as np
 
-from config.Name import kScalarsList, kDefault_Scalar
+from config.Name import kScalarsList, kDefault_Scalar, kSplit_Line
 
 from config.PyvistaSettings import *
 
@@ -20,8 +20,39 @@ from utils.RegularExpression import getDomainFilesList
 
 class DomainsWithGenDis:
     
+    """this class of domains with general displacement
+    - `data_path: str` -> the path of the data
+    - `domain_files_list: list` -> the list of the domain files
+    - `n_domains: int` -> the number of the domains
+    - `unstructured_grid: pyvista.UnstructuredGrid` -> the unstructured grid of the domains
+    - `n_points: int` -> the number of the points
+    - `n_cells: int` -> the number of the cells
+    - `basic_position: np.ndarray` -> the basic position of the points
+    - `n_gen_dis: int` -> the number of the general displacement
+    - `phi_3Darray: np.ndarray` -> the 3D array of the general displacement
+    """
+    
+    # ---------------------------------------------------------------------------------------------
+    
     def __init__(self) -> None:
         pass
+    
+    def __str__(self) -> None:
+        info: str = kSplit_Line + "\nDomainsWithGenDis\n"
+        info += "data path: " + self.data_path + "\n"
+        info += "number of domains: " + str(self.n_domains) + "\n"
+        info += "number of points: " + str(self.n_points) + "\n"
+        info += "number of cells: " + str(self.n_cells) + "\n"
+        info += "number of general displacement: " + str(self.n_gen_dis) + "\n"
+        info += kSplit_Line + "\n"
+        return info
+        pass
+    
+    def __repr__(self) -> str:
+        return self.__str__()
+        pass
+    
+    # ---------------------------------------------------------------------------------------------
     
     def loadDomainFilesFromPath(self, data_path: str) -> None:
         self.data_path: str = data_path
@@ -52,7 +83,7 @@ class DomainsWithGenDis:
         self.n_gen_dis: int = len(param) // 3
         phi_list: list = []
         for j in range(self.n_gen_dis):
-            phi_j: np.ndarray = np.array([self.n_points, 3], dtype=np.float64)
+            phi_j: np.ndarray = np.zeros([self.n_points, 3], dtype=np.float64)
             for i in range(3):
                 phi_j.T[i] = np.array( \
                     self.unstructured_grid.point_data[param[i*self.n_gen_dis + j]], dtype=np.float64)
@@ -69,19 +100,22 @@ class DomainsWithGenDis:
         self.unstructured_grid.set_active_scalars(kDefault_Scalar)
         pass
     
+    # ---------------------------------------------------------------------------------------------
+    
     def getGenDis(self, gen_dis_response: np.ndarray) -> np.ndarray:
         return (self.phi_3Darray.T @ gen_dis_response).T
         pass
     
-    def getUnstructuredGrid(self, \
+    def getUnstructuredGrid(self, unstructured_grid: pyvista.UnstructuredGrid, \
         gen_dis_response: np.ndarray, magnification: float) -> pyvista.UnstructuredGrid:
-        unstructured_grid: pyvista.UnstructuredGrid = self.unstructured_grid.copy()
         gen_dis: np.ndarray = self.getGenDis(gen_dis_response)
-        unstructured_grid.points += gen_dis * magnification
+        unstructured_grid.points = self.basic_position + gen_dis * magnification
         for i in range(len(kScalarsList)):
             unstructured_grid.point_data[kScalarsList[i]] = gen_dis.T[i]
             pass
         pass
+    
+    # ---------------------------------------------------------------------------------------------
     
     pass
 

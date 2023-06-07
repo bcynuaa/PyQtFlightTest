@@ -11,7 +11,7 @@
 import os
 import numpy as np
 
-from config.Name import kData_File_Format, kDefault_Simulation_Name
+from config.Name import kData_File_Format, kDefault_Simulation_Name, kSplit_Line
 
 from utils.RegularExpression import getHAndMaFromDatabaseFile
 from utils.SubDict import *
@@ -21,14 +21,33 @@ kSkip_Rows: int = 1
 class SimulationDatabase:
     
     """the class of simulation database
-    `database_path: str` -> the path of the database
-    `database_files_list: list` -> the list of the database files
-    `database_files_dict: dict` -> the dict of the database files
-    `database_dict: dict` -> the dict of the database, which is a sub-dict like `database_dict[height][mach] = data`
+    - `database_path: str` -> the path of the database
+    - `database_files_list: list` -> the list of the database files
+    - `database_files_dict: dict` -> the dict of the database files
+    - `database_dict: dict` -> the dict of the database, which is a sub-dict like `database_dict[height][mach] = data`
     """
+    
+    # ---------------------------------------------------------------------------------------------
     
     def __init__(self) -> None:
         pass
+    
+    def __str__(self) -> str:
+        info: str = kSplit_Line + "\n<SimulationDatabase>\n"
+        info += "database path: " + self.database_path + "\n"
+        info += "number of database files: " + str(len(self.database_files_list)) + "\n"
+        info += "database files:\n" + str(self.database_files_list) + "\n"
+        info += "current database has value at (height, mach):\n" \
+            + str(self.getDatabaseDictKeys()) + "\n"
+        info += kSplit_Line + "\n"
+        return info
+        pass
+    
+    def __repr__(self) -> str:
+        return self.__str__()
+        pass
+    
+    # ---------------------------------------------------------------------------------------------
     
     def loadDatabaseFromPath(self, database_path: str) -> None:
         self.database_path: str = database_path
@@ -63,6 +82,8 @@ class SimulationDatabase:
         self.updateDatabaseFromMultipleFiles(self.database_files_list)
         pass
     
+    # ---------------------------------------------------------------------------------------------
+    
     def updateDatabaseFromSingularFile(self, database_file: str) -> None:
         # get the height and mach from the database_file
         height, mach = getHAndMaFromDatabaseFile(database_file)
@@ -81,6 +102,8 @@ class SimulationDatabase:
             self.updateDatabaseFromSingularFile(database_file)
             pass
         pass
+    
+    # ---------------------------------------------------------------------------------------------
     
     def getDatabaseDictKeys(self) -> list:
         # this function is to get the database_dict's keys like: [(height1, mach1), ...]
@@ -106,6 +129,8 @@ class SimulationDatabase:
         height, mach = self.getCloestDatabaseDictKeys(height_in, mach_in)
         return (self.database_files_dict[height][mach], height, mach)
         pass
+    
+    # ---------------------------------------------------------------------------------------------
     
     pass
 
