@@ -106,8 +106,19 @@ class DomainsWithGenDis:
         return (self.phi_3Darray.T @ gen_dis_response).T
         pass
     
-    def getUnstructuredGrid(self, unstructured_grid: pyvista.UnstructuredGrid, \
-        gen_dis_response: np.ndarray, magnification: float) -> pyvista.UnstructuredGrid:
+    def getUnstructuredGrid(self, \
+        gen_dis_response: np.ndarray, magnification: float = 0.01) -> pyvista.UnstructuredGrid:
+        gen_dis: np.ndarray = self.getGenDis(gen_dis_response)
+        unstructured_grid: pyvista.UnstructuredGrid = self.unstructured_grid.copy()
+        unstructured_grid.points += gen_dis * magnification
+        for i in range(len(kScalarsList)):
+            unstructured_grid.point_data[kScalarsList[i]] = gen_dis.T[i]
+            pass
+        return unstructured_grid
+        pass
+    
+    def addGenDisToUnstructuredGrid(self, unstructured_grid: pyvista.UnstructuredGrid, \
+        gen_dis_response: np.ndarray, magnification: float = 0.01) -> None:
         gen_dis: np.ndarray = self.getGenDis(gen_dis_response)
         unstructured_grid.points = self.basic_position + gen_dis * magnification
         for i in range(len(kScalarsList)):

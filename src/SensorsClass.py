@@ -12,21 +12,23 @@ import numpy as np
 
 from config.Name import kSplit_Line
 
-from utils.RegularExpression import getHAndMaFromSensorsFile
-
 class Sensors:
     
-    """the class of sensors to mode
+    """the class of sensors
     - `sensors_mode_dis_file: str` -> the file of the sensors mode displacement
     - `mode_dis_matrix: np.ndarray` -> the matrix of the mode displacement
     - `n_sensors: int` -> the number of the sensors
     - `n_gen_dis: int` -> the number of the modes
-    - `getGenDisResponse: function` -> the function of getting the general displacement response
+    - `method_flag: int` -> the flag of the method to get the general displacement
+        - 1: use the inverse matrix
+        - 2: use the least square method
+        - 3: use the inverse matrix where the left values equal to 0
     """
     
     # ---------------------------------------------------------------------------------------------
     
     def __init__(self) -> None:
+        self.method_flag: int = 0
         pass
     
     def __str__(self) -> str:
@@ -34,6 +36,7 @@ class Sensors:
         info += "sensors mode displacement files: " + self.sensors_mode_dis_file + "\n"
         info += "number of sensors: " + str(self.n_sensors) + "\n"
         info += "number of general displacement: " + str(self.n_gen_dis) + "\n"
+        info += "method flag: " + str(self.method_flag) + "\n"
         info += kSplit_Line + "\n"
         return info
         pass
@@ -82,22 +85,31 @@ class Sensors:
     def __determineGetGenDisResponseFunction(self) -> None:
         # here X_i = phi_ij q_j
         if self.n_sensors == self.n_gen_dis:
-            self.getGenDisResponse: function = self.__getGenDisResponse1
+            self.method_flag: int = 1
             pass
         elif self.n_sensors > self.n_gen_dis:
-            self.getGenDisResponse: function = self.__getGenDisResponse2
+            self.method_flag: int = 2
             pass
         elif self.n_sensors < self.n_gen_dis:
-            self.getGenDisResponse: function = self.__getGenDisResponse3
+            self.method_flag: int = 3
             pass
         else:
             pass
         pass
     
-    # ---------------------------------------------------------------------------------------------
-    
-    def connectToSensorsDataFile(self, sensors_data_file: str) -> None:
-        self.sensors_data_file: str = sensors_data_file
+    def getGenDisResponse(self, sensors_response: np.ndarray) -> np.ndarray:
+        if self.method_flag == 1:
+            return self.__getGenDisResponse1(sensors_response)
+            pass
+        elif self.method_flag == 2:
+            return self.__getGenDisResponse2(sensors_response)
+            pass
+        elif self.method_flag == 3:
+            return self.__getGenDisResponse3(sensors_response)
+            pass
+        else:
+            return None
+            pass
         pass
     
     # ---------------------------------------------------------------------------------------------
