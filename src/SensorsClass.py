@@ -5,7 +5,7 @@
  # @ author: bcynuaa
  # @ date: 2023-06-07 17:38:53
  # @ license: Mozilla Public License 2.0
- # @ description: the class of sensors to mode
+ # @ description: the class of sensors
  '''
 
 import numpy as np

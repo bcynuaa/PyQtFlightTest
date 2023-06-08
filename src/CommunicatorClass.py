@@ -16,6 +16,7 @@ from config.MatplotlibSettings import *
 from src.SimulationDatabaseClass import SimulationDatabase
 from src.DomainsWithGenDisClass import DomainsWithGenDis
 from src.SensorsClass import Sensors
+from src.MatplotlibCanvasClass import *
 
 class Communicator:
     
@@ -30,13 +31,35 @@ class Communicator:
         self.domains_with_gen_dis: DomainsWithGenDis = DomainsWithGenDis()
         self.sensors: Sensors = Sensors()
         self.__initializePyvistaPlotter()
+        self.__initializeMatplotlibCanvas()
         pass
     
     def __initializePyvistaPlotter(self) -> None:
+        # flight test plotter
         self.flight_test_plotter: QtInteractor = QtInteractor()
+        self.__addMeshToFlightTestPlotter(pyvista.Sphere())
+        # simulation plotter
         self.simulation_plotter: QtInteractor = QtInteractor()
-        self.flight_test_plotter.add_mesh(pyvista.Sphere())
-        self.simulation_plotter.add_mesh(pyvista.Sphere())
+        self.__addMeshToSimulationPlotter(pyvista.Sphere())
+        pass
+    
+    def __initializeMatplotlibCanvas(self) -> None:
+        self.time_domain_canvas: TimeDomainCanvas = TimeDomainCanvas()
+        self.frequency_domain_canvas: FrequencyDomainCanvas = FrequencyDomainCanvas()
+        pass
+    
+    # ---------------------------------------------------------------------------------------------
+    
+    def __addMeshToFlightTestPlotter(self, mesh) -> None:
+        self.flight_test_plotter.add_mesh(mesh) # TODO: pyvista settings
+        self.flight_test_plotter.add_axes()
+        self.flight_test_plotter.add_bounding_box()
+        pass
+    
+    def __addMeshToSimulationPlotter(self, mesh) -> None:
+        self.simulation_plotter.add_mesh(mesh) # TODO: pyvista settings
+        self.simulation_plotter.add_axes()
+        self.simulation_plotter.add_bounding_box()
         pass
     
     # ---------------------------------------------------------------------------------------------
@@ -47,10 +70,12 @@ class Communicator:
         pass
     
     def __refreshPyvistaPlotter(self) -> None:
+        # flight test plotter
         self.flight_test_plotter.clear()
+        self.__addMeshToFlightTestPlotter(self.flight_test_grid)
+        # simulation plotter
         self.simulation_plotter.clear()
-        self.flight_test_plotter.add_mesh(self.flight_test_grid) # TODO: pyvista settings
-        self.simulation_plotter.add_mesh(self.simulation_grid) # TODO: pyvista settings
+        self.__addMeshToSimulationPlotter(self.simulation_grid)
         pass
     
     def loadDomainFilesFromPath(self, data_path: str) -> None:
@@ -70,4 +95,13 @@ class Communicator:
     
     # ---------------------------------------------------------------------------------------------
     
+    def close(self) -> None:
+        self.flight_test_plotter.close()
+        self.simulation_plotter.close()
+        pass
+    
+    # ---------------------------------------------------------------------------------------------
+    
     pass
+
+print("src: CommunicatorClass.py is imported.")
