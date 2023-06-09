@@ -44,8 +44,10 @@ class Communicator:
         pass
     
     def __initializeMatplotlibCanvas(self) -> None:
-        self.time_domain_canvas: TimeDomainCanvas = TimeDomainCanvas()
-        self.frequency_domain_canvas: FrequencyDomainCanvas = FrequencyDomainCanvas()
+        self.flight_test_time_domain_canvas: TimeDomainCanvas = TimeDomainCanvas()
+        self.flight_test_frequency_domain_canvas: FrequencyDomainCanvas = FrequencyDomainCanvas()
+        self.simulation_time_domain_canvas: TimeDomainCanvas = TimeDomainCanvas()
+        self.simulation_frequency_domain_canvas: FrequencyDomainCanvas = FrequencyDomainCanvas()
         pass
     
     # ---------------------------------------------------------------------------------------------

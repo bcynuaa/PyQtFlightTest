@@ -15,7 +15,6 @@ os.environ["QT_API"] = "pyside2"
 
 from PySide2 import QtWidgets
 from PySide2 import QtCore
-from PySide2 import QtGui
 
 from qt_material import apply_stylesheet
 

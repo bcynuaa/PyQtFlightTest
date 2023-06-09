@@ -80,6 +80,9 @@ kList_Widget_Dict: dict = {
     2: "仿真分析界面"
 }
 
+kTab_Name_Time_Domain: str = "时域信号"
+kTab_Name_Frequency_Domain: str = "频域信号"
+
 # -------------------------------------------------------------------------------------------------
 
 print("config: Name.py is imported.")

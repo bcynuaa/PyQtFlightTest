@@ -79,28 +79,31 @@ class MainWindow(Ui_MainWindow, QMainWindow):
         pass
     
     def __initilizeMatplotlib(self) -> None:
-        self.main_page_tab_widget.setCurrentIndex(0)
-        # set tab 1's name as "时域数据"
-        self.main_page_tab_widget.setTabText(0, "时域数据")
-        # set tab 2's name as "频域数据"
-        self.main_page_tab_widget.setTabText(1, "频域数据")
-        self.main_page_tab_widget.setMinimumHeight(kTab_Height)
-        # time domain tab
-        self.main_page_time_domain_matplotlib_tab.setMinimumHeight(kTab_Height)
-        self.main_page_time_domain_matplotlib_tab_layout = QVBoxLayout( \
-            self.main_page_time_domain_matplotlib_tab)
-        self.main_page_time_domain_matplotlib_tab_layout.addWidget( \
-            self.communicator.time_domain_canvas.toolbar)
-        self.main_page_time_domain_matplotlib_tab_layout.addWidget( \
-            self.communicator.time_domain_canvas.canvas)
-        # frequency domain tab
-        self.main_page_frequency_domain_matplotlib_tab.setMinimumHeight(kTab_Height)
-        self.main_page_frequency_domain_matplotlib_tab_layout = QVBoxLayout( \
-            self.main_page_frequency_domain_matplotlib_tab)
-        self.main_page_frequency_domain_matplotlib_tab_layout.addWidget( \
-            self.communicator.frequency_domain_canvas.toolbar)
-        self.main_page_frequency_domain_matplotlib_tab_layout.addWidget( \
-            self.communicator.frequency_domain_canvas.canvas)
+        # flight test tabs
+        self.main_page_flight_test_tab_widget.setMinimumHeight(kTab_Height)
+        self.main_page_flight_test_tab_widget.setCurrentIndex(0)
+    #     self.main_page_tab_widget.setCurrentIndex(0)
+    #     # set tab 1's name as "时域数据"
+    #     self.main_page_tab_widget.setTabText(0, "时域数据")
+    #     # set tab 2's name as "频域数据"
+    #     self.main_page_tab_widget.setTabText(1, "频域数据")
+    #     self.main_page_tab_widget.setMinimumHeight(kTab_Height)
+    #     # time domain tab
+    #     self.main_page_time_domain_matplotlib_tab.setMinimumHeight(kTab_Height)
+    #     self.main_page_time_domain_matplotlib_tab_layout = QVBoxLayout( \
+    #         self.main_page_time_domain_matplotlib_tab)
+    #     self.main_page_time_domain_matplotlib_tab_layout.addWidget( \
+    #         self.communicator.time_domain_canvas.toolbar)
+    #     self.main_page_time_domain_matplotlib_tab_layout.addWidget( \
+    #         self.communicator.time_domain_canvas.canvas)
+    #     # frequency domain tab
+    #     self.main_page_frequency_domain_matplotlib_tab.setMinimumHeight(kTab_Height)
+    #     self.main_page_frequency_domain_matplotlib_tab_layout = QVBoxLayout( \
+    #         self.main_page_frequency_domain_matplotlib_tab)
+    #     self.main_page_frequency_domain_matplotlib_tab_layout.addWidget( \
+    #         self.communicator.frequency_domain_canvas.toolbar)
+    #     self.main_page_frequency_domain_matplotlib_tab_layout.addWidget( \
+    #         self.communicator.frequency_domain_canvas.canvas)
         pass
     
     # ---------------------------------------------------------------------------------------------
