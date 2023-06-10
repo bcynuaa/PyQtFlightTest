@@ -79,31 +79,44 @@ class MainWindow(Ui_MainWindow, QMainWindow):
         pass
     
     def __initilizeMatplotlib(self) -> None:
-        # flight test tabs
-        self.main_page_flight_test_tab_widget.setMinimumHeight(kTab_Height)
+        # * flight test tabs
         self.main_page_flight_test_tab_widget.setCurrentIndex(0)
-    #     self.main_page_tab_widget.setCurrentIndex(0)
-    #     # set tab 1's name as "时域数据"
-    #     self.main_page_tab_widget.setTabText(0, "时域数据")
-    #     # set tab 2's name as "频域数据"
-    #     self.main_page_tab_widget.setTabText(1, "频域数据")
-    #     self.main_page_tab_widget.setMinimumHeight(kTab_Height)
-    #     # time domain tab
-    #     self.main_page_time_domain_matplotlib_tab.setMinimumHeight(kTab_Height)
-    #     self.main_page_time_domain_matplotlib_tab_layout = QVBoxLayout( \
-    #         self.main_page_time_domain_matplotlib_tab)
-    #     self.main_page_time_domain_matplotlib_tab_layout.addWidget( \
-    #         self.communicator.time_domain_canvas.toolbar)
-    #     self.main_page_time_domain_matplotlib_tab_layout.addWidget( \
-    #         self.communicator.time_domain_canvas.canvas)
-    #     # frequency domain tab
-    #     self.main_page_frequency_domain_matplotlib_tab.setMinimumHeight(kTab_Height)
-    #     self.main_page_frequency_domain_matplotlib_tab_layout = QVBoxLayout( \
-    #         self.main_page_frequency_domain_matplotlib_tab)
-    #     self.main_page_frequency_domain_matplotlib_tab_layout.addWidget( \
-    #         self.communicator.frequency_domain_canvas.toolbar)
-    #     self.main_page_frequency_domain_matplotlib_tab_layout.addWidget( \
-    #         self.communicator.frequency_domain_canvas.canvas)
+        self.main_page_flight_test_tab_widget.setMinimumHeight(kTab_Height)
+        # * flight test time tab
+        self.main_page_flight_test_tab_widget.setTabText(0, kTab_Name_Time_Domain)
+        self.main_page_flight_test_time_domain_matplotlib_tab_layout = QVBoxLayout( \
+            self.main_page_flight_test_time_tab)
+        self.main_page_flight_test_time_domain_matplotlib_tab_layout.addWidget( \
+            self.communicator.flight_test_time_domain_canvas.toolbar)
+        self.main_page_flight_test_time_domain_matplotlib_tab_layout.addWidget( \
+            self.communicator.flight_test_time_domain_canvas.canvas)
+        # * flight test frequency tab
+        self.main_page_flight_test_tab_widget.setTabText(1, kTab_Name_Frequency_Domain)
+        self.main_page_flight_test_frequency_domain_matplotlib_tab_layout = QVBoxLayout( \
+            self.main_page_flight_test_frequency_tab)
+        self.main_page_flight_test_frequency_domain_matplotlib_tab_layout.addWidget( \
+            self.communicator.flight_test_frequency_domain_canvas.toolbar)
+        self.main_page_flight_test_frequency_domain_matplotlib_tab_layout.addWidget( \
+            self.communicator.flight_test_frequency_domain_canvas.canvas)
+        # * simulation tabs
+        self.main_page_simulation_tab_widget.setCurrentIndex(0)
+        self.main_page_simulation_tab_widget.setMinimumHeight(kTab_Height)
+        # * simulation time tab
+        self.main_page_simulation_tab_widget.setTabText(0, kTab_Name_Time_Domain)
+        self.main_page_simulation_time_tab_layout = QVBoxLayout( \
+            self.main_page_simulation_time_tab)
+        self.main_page_simulation_time_tab_layout.addWidget( \
+            self.communicator.simulation_time_domain_canvas.toolbar)
+        self.main_page_simulation_time_tab_layout.addWidget( \
+            self.communicator.simulation_time_domain_canvas.canvas)
+        # * simulation frequency tab
+        self.main_page_simulation_tab_widget.setTabText(1, kTab_Name_Frequency_Domain)
+        self.main_page_simulation_frequency_tab_layout = QVBoxLayout( \
+            self.main_page_simulation_frequency_tab)
+        self.main_page_simulation_frequency_tab_layout.addWidget( \
+            self.communicator.simulation_frequency_domain_canvas.toolbar)
+        self.main_page_simulation_frequency_tab_layout.addWidget( \
+            self.communicator.simulation_frequency_domain_canvas.canvas)
         pass
     
     # ---------------------------------------------------------------------------------------------
