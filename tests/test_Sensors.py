@@ -25,14 +25,12 @@ print("general displacement response: ", sensors.getGenDisResponse(sensor_respon
 # results:
 
 # config: Name.py is imported.
-# utils: RegularExpression.py is imported.
 # src: SensorsToModeClass.py is imported.
 # --------------------------------------------------
 # Sensors
 # sensors mode displacement files: ..//..//TestData//ProjectFlightTest2//Sensors//sensor_vbshape.dat
 # number of sensors: 4
 # number of general displacement: 5
-# method flag: 3
 # --------------------------------------------------
 
 # mode j at sensor i's displacement's matrix [i, j]
@@ -45,4 +43,4 @@ print("general displacement response: ", sensors.getGenDisResponse(sensor_respon
 #  [ 6.65424136e-03 -1.85990488e-02  2.09414053e-05 -1.63393921e-02
 #    2.47003517e-03]]
 # sensor response data:  [1. 1. 1. 1.]
-# general displacement response:  [ 346.71708582  -28.47104829 -282.85388159  112.04518633    0.        ]
+# general displacement response:  [ 241.59024901   31.13881526 -100.77192797  -27.85413233 -194.91899223]
