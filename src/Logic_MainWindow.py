@@ -122,6 +122,7 @@ class MainWindow(Ui_MainWindow, QMainWindow):
         self.info_text_browser.setTextColor(kQText_Browser_Font_Color)
         self.info_text_browser.setFont( \
             QFont(kQText_Browser_Font_Family, kQText_Browser_Font_Size))
+        self.info_text_browser.append(kWelcome_Title)
         self.__writeToInfoTextBrowser(kWelcome_Info)
         self.info_text_browser.moveCursor(self.info_text_browser.textCursor().Start)
         pass
@@ -130,6 +131,7 @@ class MainWindow(Ui_MainWindow, QMainWindow):
         # ref: 
         # - https://www.cnblogs.com/jyroy/p/9457882.html
         self.switch_stack_list_widget.setMaximumWidth(kList_View_Width)
+        self.switch_stack_list_widget.setMaximumHeight(kList_View_Height)
         for key in kList_Widget_Dict:
             self.switch_stack_list_widget.insertItem(key, kList_Widget_Dict[key])
             pass

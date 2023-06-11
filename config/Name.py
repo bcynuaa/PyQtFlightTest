@@ -58,6 +58,7 @@ def getCurrentTime() -> str:
     ) + "\n"
     pass
 
+kWelcome_Title: str = "Hello, PyQtFlightTest!"
 kWelcome_Info: str = "\
 Welcome to use PyQtFlightTest!\n\n\
 This software is used to display aircraft's motion with data from Prof. Guo and his research group.\n\n\
