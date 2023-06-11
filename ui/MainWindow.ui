@@ -38,7 +38,17 @@
        </widget>
       </item>
       <item>
-       <widget class="QTextBrowser" name="info_text_browser"/>
+       <widget class="QTextBrowser" name="info_text_browser">
+        <property name="font">
+         <font>
+          <family>微软雅黑</family>
+          <pointsize>11</pointsize>
+          <weight>50</weight>
+          <italic>false</italic>
+          <bold>false</bold>
+         </font>
+        </property>
+       </widget>
       </item>
      </layout>
     </item>
@@ -123,8 +133,15 @@
     <property name="title">
      <string>File</string>
     </property>
-    <addaction name="actionLoad_Domains"/>
-    <addaction name="actionLoad_Simuation_Database"/>
+    <widget class="QMenu" name="menuLoad_Data">
+     <property name="title">
+      <string>Load Data</string>
+     </property>
+     <addaction name="actionLoad_Domains"/>
+     <addaction name="actionLoad_Simuation_Database"/>
+     <addaction name="actionLoad_Sensors_Points"/>
+    </widget>
+    <addaction name="menuLoad_Data"/>
    </widget>
    <widget class="QMenu" name="menuView">
     <property name="title">
@@ -155,6 +172,11 @@
   <action name="actionLoad_Simuation_Database">
    <property name="text">
     <string>Load Simuation Database</string>
+   </property>
+  </action>
+  <action name="actionLoad_Sensors_Points">
+   <property name="text">
+    <string>Load Sensors Points</string>
    </property>
   </action>
  </widget>

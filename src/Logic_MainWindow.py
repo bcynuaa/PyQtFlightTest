@@ -31,12 +31,83 @@ class MainWindow(Ui_MainWindow, QMainWindow):
         self.__initializeAll()
         pass
     
+    # ---------------------------------------------------------------------------------------------
+    
     def __initializeAll(self) -> None:
+        self.__initializeMenubar()
         self.__initializeTextBrowser()
         self.__initializeListWidget()
         self.__initializePyvista()
         self.__initilizeMatplotlib()
         pass
+    
+    # ---------------------------------------------------------------------------------------------
+    
+    def __initializeMenubar(self) -> None:
+        self.__initializeMenubarFile()
+        pass
+    
+    # ---------------------------------------------------------------------------------------------
+    
+    def __initializeMenubarFile(self) -> None:
+        self.actionLoad_Domains.triggered.connect(self.__loadDomains)
+        self.actionLoad_Simuation_Database.triggered.connect(self.__loadSimulationDatabase)
+        self.actionLoad_Sensors_Points.triggered.connect(self.__loadSensorsPoints)
+        pass
+    
+    def __loadDomains(self) -> None:
+        data_path: str = QFileDialog.getExistingDirectory(self, \
+            "选取模型数据文件路径(存有DOMAINxxx.dat)", kRelative_Path)
+        try:
+            self.communicator.loadDomainFilesFromPath(data_path)
+            self.__writeToInfoTextBrowser( \
+                "成功从路径 '" + data_path + "' 加载模型数据文件")
+            self.__writeToInfoTextBrowser( \
+                "模型数据文件信息\n" + self.communicator.domains_with_gen_dis.getInfo())
+            pass
+        except:
+            QMessageBox.critical(self, \
+                "错误数据路径", "路径 '" + data_path + "' 不是有效数据路径")
+            pass
+        pass
+    
+    def __loadSimulationDatabase(self) -> None:
+        database_path: str = QFileDialog.getExistingDirectory(self, \
+            "选取模型数据文件路径(存有SIMULATIONxxx.dat)", kRelative_Path)
+        try:
+            self.communicator.simulation_database.loadDatabaseFromPath(database_path)
+            self.__writeToInfoTextBrowser( \
+                "成功从路径 '" + database_path + "' 加载气动数据库文件")
+            self.__writeToInfoTextBrowser( \
+                "气动数据库文件信息\n" + self.communicator.simulation_database.getInfo())
+            pass
+        except:
+            QMessageBox.critical(self, \
+                "错误数据路径", "路径 '" + database_path + "' 不是有效数据路径")
+            pass
+        pass
+    
+    def __loadSensorsPoints(self) -> None:
+        sensors_mode_dis_file, okpressed = QFileDialog.getOpenFileName(self, \
+            "选取指定的传感器模态位移文件", kRelative_Path, "(*" + kData_File_Format + ")")
+        if okpressed == False:
+            return
+        else:
+            try:
+                self.communicator.sensors.loadSensorsModeDisFile(sensors_mode_dis_file)
+                self.__writeToInfoTextBrowser( \
+                    "成功从文件 '" + sensors_mode_dis_file + "' 加载传感器模态位移数据")
+                self.__writeToInfoTextBrowser( \
+                    "传感器模态位移数据信息\n" + self.communicator.sensors.getInfo())
+                pass
+            except:
+                QMessageBox.critical(self, \
+                    "错误数据文件", "文件 '" + sensors_mode_dis_file + "' 不是有效数据文件")
+                pass
+            pass
+        pass
+    
+    # ---------------------------------------------------------------------------------------------
     
     def __writeToInfoTextBrowser(self, message: str) -> None:
         message = kSplit_Line + "\n" + getCurrentTime() + message + "\n" + kSplit_Line
@@ -47,7 +118,10 @@ class MainWindow(Ui_MainWindow, QMainWindow):
     def __initializeTextBrowser(self) -> None:
         self.info_text_browser.clear()
         self.info_text_browser.setMaximumWidth(kText_Browser_Width)
-        self.info_text_browser.setMarkdown("# Hello!\n")
+        self.info_text_browser.setReadOnly(True)
+        self.info_text_browser.setTextColor(kQText_Browser_Font_Color)
+        self.info_text_browser.setFont( \
+            QFont(kQText_Browser_Font_Family, kQText_Browser_Font_Size))
         self.__writeToInfoTextBrowser(kWelcome_Info)
         self.info_text_browser.moveCursor(self.info_text_browser.textCursor().Start)
         pass

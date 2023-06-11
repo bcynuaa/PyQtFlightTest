@@ -52,16 +52,19 @@ class Communicator:
     
     # ---------------------------------------------------------------------------------------------
     
+    def __addMeshToPlotter(self, plotter: QtInteractor, mesh) -> None:
+        plotter.add_mesh(mesh) # TODO: pyvista settings
+        plotter.add_axes()
+        plotter.add_bounding_box()
+        plotter.show_grid()
+        pass
+    
     def __addMeshToFlightTestPlotter(self, mesh) -> None:
-        self.flight_test_plotter.add_mesh(mesh) # TODO: pyvista settings
-        self.flight_test_plotter.add_axes()
-        self.flight_test_plotter.add_bounding_box()
+        self.__addMeshToPlotter(self.flight_test_plotter, mesh)
         pass
     
     def __addMeshToSimulationPlotter(self, mesh) -> None:
-        self.simulation_plotter.add_mesh(mesh) # TODO: pyvista settings
-        self.simulation_plotter.add_axes()
-        self.simulation_plotter.add_bounding_box()
+        self.__addMeshToPlotter(self.simulation_plotter, mesh)
         pass
     
     # ---------------------------------------------------------------------------------------------

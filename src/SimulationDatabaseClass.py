@@ -47,6 +47,16 @@ class SimulationDatabase:
         return self.__str__()
         pass
     
+    def getInfo(self) -> str:
+        info: str = kSplit_Line + "\n<SimulationDatabase>\n"
+        info += "database path: " + self.database_path + "\n"
+        info += "number of database files: " + str(len(self.database_files_list)) + "\n"
+        info += "current database has value at (height, mach):\n" \
+            + str(self.getDatabaseDictKeys()) + "\n"
+        info += kSplit_Line + "\n"
+        return info
+        pass
+    
     # ---------------------------------------------------------------------------------------------
     
     def loadDatabaseFromPath(self, database_path: str) -> None:

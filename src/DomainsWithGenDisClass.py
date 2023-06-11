@@ -38,7 +38,7 @@ class DomainsWithGenDis:
         pass
     
     def __str__(self) -> None:
-        info: str = kSplit_Line + "\nDomainsWithGenDis\n"
+        info: str = kSplit_Line + "\n<DomainsWithGenDis>\n"
         info += "data path: " + self.data_path + "\n"
         info += "number of domains: " + str(self.n_domains) + "\n"
         info += "number of points: " + str(self.n_points) + "\n"
@@ -49,6 +49,10 @@ class DomainsWithGenDis:
         pass
     
     def __repr__(self) -> str:
+        return self.__str__()
+        pass
+    
+    def getInfo(self) -> str:
         return self.__str__()
         pass
     

@@ -14,4 +14,10 @@ kTab_Height:float = 300.0
 kText_Browser_Width: float = 400.0
 kList_View_Width: float = kText_Browser_Width
 
+kQText_Browser_Font_Color: str = "black"
+kQText_Browser_Font_Family: str = "Microsoft YaHei"
+kQText_Browser_Font_Size: int = 9
+
+kRelative_Path: str = "..//..//"
+
 print("config: MinWindow Settings have been finished.")

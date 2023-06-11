@@ -24,11 +24,10 @@ if __name__ == "__main__":
     # add this line to support high dpi
     QtCore.QCoreApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling)
     app = QtWidgets.QApplication(sys.argv)
-    window = MainWindow()
-    # TODO: choose suitable qt material theme
     # from qt_material import list_themes
     # list_themes()
     apply_stylesheet(app, theme="light_blue.xml")
+    window = MainWindow()
     window.show()
     sys.exit(app.exec_())
     pass

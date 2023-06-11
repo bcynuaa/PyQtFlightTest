@@ -20,8 +20,8 @@ kDefault_Flight_Test_Name: str = "flight_test"
 
 # -------------------------------------------------------------------------------------------------
 
-kScalarsList: list = ["dX", "dY", "dZ"]
-kDefault_Scalar: str = "dZ"
+kScalarsList: list = ["ax", "ay", "az"]
+kDefault_Scalar: str = "az"
 
 # -------------------------------------------------------------------------------------------------
 
@@ -68,7 +68,7 @@ Here're the things you need to know.\n\
     4. You may load data and export the progress as video or gif via clicking menubar 'File'.\n\
     5. You may see the 2D and 3D information in new window via clicking menubar 'View'.\n\
     6. You may change some settings via clicking menubar 'Option'.\n\
-    7. You may use some tools built-in via clicking 'Tool'.\n\n\
+    7. You may use some tools built-in via clicking 'Tools'.\n\n\
 Warning: \n\
     1. This software is developed all with open-source's packages and languages, so the safety issue is not a concern.\n\
     2. All copy right of this software belongs to Prof. Guo and his research group.\n\

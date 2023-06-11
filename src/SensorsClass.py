@@ -28,7 +28,7 @@ class Sensors:
         pass
     
     def __str__(self) -> str:
-        info: str = kSplit_Line + "\nSensors\n"
+        info: str = kSplit_Line + "\n<Sensors>\n"
         info += "sensors mode displacement files: " + self.sensors_mode_dis_file + "\n"
         info += "number of sensors: " + str(self.n_sensors) + "\n"
         info += "number of general displacement: " + str(self.n_gen_dis) + "\n"
@@ -37,6 +37,10 @@ class Sensors:
         pass
     
     def __repr__(self) -> str:
+        return self.__str__()
+        pass
+    
+    def getInfo(self) -> str:
         return self.__str__()
         pass
     
