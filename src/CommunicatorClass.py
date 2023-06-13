@@ -13,6 +13,8 @@ from pyvistaqt import QtInteractor, BackgroundPlotter
 from config.PyvistaSettings import *
 from config.MatplotlibSettings import *
 
+from utils.RegularExpression import isWatchDogSensorsFile, getHAndMaFromSensorsFile
+
 from src.SimulationDatabaseClass import SimulationDatabase
 from src.DomainsWithGenDisClass import DomainsWithGenDis
 from src.SensorsClass import Sensors
@@ -106,6 +108,26 @@ class Communicator:
     def close(self) -> None:
         self.flight_test_plotter.close()
         self.simulation_plotter.close()
+        pass
+    
+    # ---------------------------------------------------------------------------------------------
+    
+    # TODO: below is only for the friday's meeting
+    
+    def __processSensorsFile(self, sensors_file: str) -> None:
+        height_in, mach_in = getHAndMaFromSensorsFile(sensors_file)
+        sensors_data: np.ndarray = np.loadtxt(sensors_file, dtype=np.float64, skiprows=1).T
+        sensors_data[0] -= sensors_data[0][0] # set the initial time to 0
+        time_latest: float = sensors_data[0][-1] # get the latest time
+        gen_dis_response_simulation: np.ndarray = \
+            self.simulation_database.getGenDisResponse(height_in, mach_in, time_latest)
+        pass
+    
+    def callBackForWatchDog(self, event_src_path: str) -> None:
+        pure_file_name: str = event_src_path.split('\\')[-1].split('/')[0]
+        if isWatchDogSensorsFile(pure_file_name) == True:
+            self.__processSensorsFile(event_src_path)
+            pass
         pass
     
     # ---------------------------------------------------------------------------------------------

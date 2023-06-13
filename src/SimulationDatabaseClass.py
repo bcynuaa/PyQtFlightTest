@@ -126,6 +126,8 @@ class SimulationDatabase:
         return getCloestSubDictKeys(self.database_dict, height_in, mach_in)
         pass
     
+    # ---------------------------------------------------------------------------------------------
+    
     def getDatabaseDictData(self, height_in: np.float64, mach_in: np.float64) -> tuple:
         # this function is to get the data from database_dict
         # the return value should look like: (database, height, mach)
@@ -138,6 +140,18 @@ class SimulationDatabase:
         # the return value should look like: (database_file, height, mach)
         height, mach = self.getCloestDatabaseDictKeys(height_in, mach_in)
         return (self.database_files_dict[height][mach], height, mach)
+        pass
+    
+    # TODO: this function below is not finished yet
+    
+    def getDatabaseDictDataAtGivenTime(self, \
+        height_in: np.float64, mach_in: np.float64, time_in: np.float64) -> tuple:
+        # this function is to get the data from database_dict at a given time
+        # the return value should look like: (database, height, mach)
+        database, height, mach = self.getDatabaseDictData(height_in, mach_in)
+        time_scale: np.float64 = database.T[0]
+        cloest_time_index: int = np.argmin(np.abs(time_scale - time_in))
+        return (database.T[cloest_time_index][1, :], height, mach)
         pass
     
     # ---------------------------------------------------------------------------------------------

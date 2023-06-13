@@ -46,4 +46,19 @@ def getDomainFilesList(files_list: list) -> list:
     return domain_files_list
     pass
 
+def isWatchDogSensorsFile(pure_file_name: str) -> bool:
+    if pure_file_name.endswith(kData_File_Format) == False:
+        return False
+        pass
+    # TODO the format should be under discussion in meeting on Friday
+    # the file should look like "testdat01.dat"
+    pattern: str = re.compile(r"[Tt][Ee][Ss][Tt][Dd][Aa][Tt]\d+" + kData_File_Format)
+    whether_match = re.match(pattern, pure_file_name)
+    if whether_match == None:
+        return False
+    else:
+        return True
+        pass
+    pass
+
 print("utils: RegularExpression.py is imported.")
