@@ -9,7 +9,7 @@
  '''
  
 from pyvistaqt import QtInteractor, BackgroundPlotter
- 
+
 from config.PyvistaSettings import *
 from config.MatplotlibSettings import *
 
@@ -24,6 +24,7 @@ class Communicator:
     
     def __init__(self) -> None:
         self.basic_magnification: float = 0.01
+        self.critical_value: float = 10.0
         self.whether_database_loaded: bool = False
         self.whether_domains_loaded: bool = False
         self.whether_sensors_mode_dis_loaded: bool = False
