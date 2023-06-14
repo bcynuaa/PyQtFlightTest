@@ -30,6 +30,7 @@ class SimulationDatabase:
     # ---------------------------------------------------------------------------------------------
     
     def __init__(self) -> None:
+        self.compared_point_index: int = -1 # TODO: this is only for the friday's meeting
         pass
     
     def __str__(self) -> str:
@@ -142,16 +143,16 @@ class SimulationDatabase:
         return (self.database_files_dict[height][mach], height, mach)
         pass
     
-    # TODO: this function below is not finished yet
+    # TODO: this is only for the friday's meeting
     
-    def getDatabaseDictDataAtGivenTime(self, \
-        height_in: np.float64, mach_in: np.float64, time_in: np.float64) -> tuple:
-        # this function is to get the data from database_dict at a given time
-        # the return value should look like: (database, height, mach)
-        database, height, mach = self.getDatabaseDictData(height_in, mach_in)
-        time_scale: np.float64 = database.T[0]
-        cloest_time_index: int = np.argmin(np.abs(time_scale - time_in))
-        return (database.T[cloest_time_index][1, :], height, mach)
+    def getDataAtGivenTime(self, \
+        height_in: np.float64, mach_in: np.float64, latest_time: np.float64) -> tuple:
+        data, height, mach = self.getDatabaseDictData(height_in, mach_in)
+        time_scale: np.float64 = data.T[0]
+        cloest_time_index: int = np.argmin(np.abs(time_scale - latest_time))
+        gen_dis_responses: np.ndarray = data[: cloest_time_index+1][1: self.compared_point_index].T
+        compared_point_value: float = data[cloest_time_index][self.compared_point_index]
+        return (time_scale, gen_dis_responses, compared_point_value, height, mach)
         pass
     
     # ---------------------------------------------------------------------------------------------
