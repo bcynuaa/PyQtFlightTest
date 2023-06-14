@@ -14,6 +14,8 @@ from watchdog.observers import Observer
 
 kSleep_Time: float = 0.1
 
+# TODO: this is a temporary solution, need to be improved
+
 def callbackNone(event_src_path) -> None:
     pass
 
@@ -32,8 +34,8 @@ class ModifiedHandler(FileSystemEventHandler):
 
 class WatchDog:
     
-    def __init__(self, path: str, sleep_time: float = kSleep_Time, callback=callbackNone) -> None:
-        self.eyesore_path: str = path
+    def __init__(self, eyesore_path: str, sleep_time: float = kSleep_Time, callback=callbackNone) -> None:
+        self.eyesore_path: str = eyesore_path
         self.sleep_time: float = sleep_time
         self.modified_handler: ModifiedHandler = ModifiedHandler(callback)
         self.observer: Observer = Observer()

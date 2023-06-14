@@ -14,6 +14,7 @@ from config.PyvistaSettings import *
 from config.MatplotlibSettings import *
 
 from utils.RegularExpression import isWatchDogSensorsFile, getHAndMaFromSensorsFile
+from utils.Observer import WatchDog # TODO: this is a temporary solution, need to be improved
 
 from src.SimulationDatabaseClass import SimulationDatabase
 from src.DomainsWithGenDisClass import DomainsWithGenDis
@@ -169,6 +170,10 @@ class Communicator:
         if isWatchDogSensorsFile(pure_file_name) == True:
             self.__processSensorsFile(event_src_path)
             pass
+        pass
+    
+    def feedWatchDog(self, eyesore_path: str) -> None:
+        self.watchdog: WatchDog = WatchDog(eyesore_path, self.callBackForWatchDog)
         pass
     
     # ---------------------------------------------------------------------------------------------

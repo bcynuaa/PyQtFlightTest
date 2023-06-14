@@ -53,6 +53,8 @@ class MainWindow(Ui_MainWindow, QMainWindow):
         self.actionLoad_Domains.triggered.connect(self.__loadDomains)
         self.actionLoad_Simuation_Database.triggered.connect(self.__loadSimulationDatabase)
         self.actionLoad_Sensors_Points.triggered.connect(self.__loadSensorsPoints)
+        # TODO: this is only for Friday's meeting
+        self.actionLoad_Eyesore_Path.triggered.connect(self.__loadEyesorePath)
         pass
     
     def __loadDomains(self) -> None:
@@ -104,6 +106,21 @@ class MainWindow(Ui_MainWindow, QMainWindow):
                 QMessageBox.critical(self, \
                     "错误数据文件", "文件 '" + sensors_mode_dis_file + "' 不是有效数据文件")
                 pass
+            pass
+        pass
+    
+    # TODO: this is only for Friday's meeting
+    def __loadEyesorePath(self) -> None:
+        eyesore_path: str = QFileDialog.getExistingDirectory(self, \
+            "选取将会更新传感器信号文件的路径，并尽可能后续保证该路径整洁", kRelative_Path)
+        try:
+            self.communicator.feedWatchDog(eyesore_path)
+            self.__writeToInfoTextBrowser( \
+                "成功从路径 '" + eyesore_path + "' 加载将会更新传感器信号文件的路径")
+            pass
+        except:
+            QMessageBox.critical(self, \
+                "错误数据路径", "路径 '" + eyesore_path + "' 不是有效数据路径")
             pass
         pass
     
@@ -194,6 +211,10 @@ class MainWindow(Ui_MainWindow, QMainWindow):
         self.main_page_simulation_frequency_tab_layout.addWidget( \
             self.communicator.simulation_frequency_domain_canvas.canvas)
         pass
+    
+    # ---------------------------------------------------------------------------------------------
+    
+    
     
     # ---------------------------------------------------------------------------------------------
     

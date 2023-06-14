@@ -25,6 +25,8 @@ class Ui_MainWindow(object):
         self.actionLoad_Simuation_Database.setObjectName(u"actionLoad_Simuation_Database")
         self.actionLoad_Sensors_Points = QAction(MainWindow)
         self.actionLoad_Sensors_Points.setObjectName(u"actionLoad_Sensors_Points")
+        self.actionLoad_Eyesore_Path = QAction(MainWindow)
+        self.actionLoad_Eyesore_Path.setObjectName(u"actionLoad_Eyesore_Path")
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.horizontalLayout_2 = QHBoxLayout(self.centralwidget)
@@ -146,6 +148,7 @@ class Ui_MainWindow(object):
         self.menuLoad_Data.addAction(self.actionLoad_Domains)
         self.menuLoad_Data.addAction(self.actionLoad_Simuation_Database)
         self.menuLoad_Data.addAction(self.actionLoad_Sensors_Points)
+        self.menuLoad_Data.addAction(self.actionLoad_Eyesore_Path)
 
         self.retranslateUi(MainWindow)
 
@@ -161,6 +164,7 @@ class Ui_MainWindow(object):
         self.actionLoad_Domains.setText(QCoreApplication.translate("MainWindow", u"Load Domains", None))
         self.actionLoad_Simuation_Database.setText(QCoreApplication.translate("MainWindow", u"Load Simuation Database", None))
         self.actionLoad_Sensors_Points.setText(QCoreApplication.translate("MainWindow", u"Load Sensors Points", None))
+        self.actionLoad_Eyesore_Path.setText(QCoreApplication.translate("MainWindow", u"Load Eyesore Path", None))
         self.switch_stack_list_widget_label.setText(QCoreApplication.translate("MainWindow", u"\u9875\u9762\u9009\u9879\u5361", None))
         self.info_text_browser_label.setText(QCoreApplication.translate("MainWindow", u"\u4fe1\u606f\u63d0\u793a\u7a97", None))
         self.main_page_flight_test_group_box.setTitle(QCoreApplication.translate("MainWindow", u"\u8bd5\u98de3D\u6a21\u578b", None))

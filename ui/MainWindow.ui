@@ -140,6 +140,7 @@
      <addaction name="actionLoad_Domains"/>
      <addaction name="actionLoad_Simuation_Database"/>
      <addaction name="actionLoad_Sensors_Points"/>
+     <addaction name="actionLoad_Eyesore_Path"/>
     </widget>
     <addaction name="menuLoad_Data"/>
    </widget>
@@ -177,6 +178,11 @@
   <action name="actionLoad_Sensors_Points">
    <property name="text">
     <string>Load Sensors Points</string>
+   </property>
+  </action>
+  <action name="actionLoad_Eyesore_Path">
+   <property name="text">
+    <string>Load Eyesore Path</string>
    </property>
   </action>
  </widget>
