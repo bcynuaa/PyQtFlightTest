@@ -113,22 +113,25 @@ class Communicator:
     def close(self) -> None:
         self.flight_test_plotter.close()
         self.simulation_plotter.close()
+        self.watchdog.sleep()
         pass
     
     # ---------------------------------------------------------------------------------------------
     
     # TODO: below is only for the friday's meeting
     
-    def __updateFlightTest(self, time_scale, gen_dis_responses: np.ndarray, factor: float) -> None:
+    def __updateFlightTest(self, time_scale, flight_test_gen_dis_response: np.ndarray, \
+        factor: float, flight_test_sensors_responses: np.ndarray) -> None:
         self.domains_with_gen_dis.addGenDisToUnstructuredGrid( \
-            self.flight_test_grid, gen_dis_responses.T[-1], self.basic_magnification * factor)
-        self.flight_test_time_domain_canvas.plot(time_scale, gen_dis_responses)
+            self.flight_test_grid, flight_test_gen_dis_response, self.basic_magnification * factor)
+        self.flight_test_time_domain_canvas.plot(time_scale, flight_test_sensors_responses)
         pass
     
     def __updateSimulation(self, time_scale, gen_dis_responses: np.ndarray) -> None:
         self.domains_with_gen_dis.addGenDisToUnstructuredGrid( \
-            self.simulation_grid, gen_dis_responses.T[-1], self.basic_magnification)
-        self.simulation_time_domain_canvas.plot(time_scale, gen_dis_responses)
+            self.simulation_grid, gen_dis_responses[:, -1], self.basic_magnification)
+        self.simulation_time_domain_canvas.plot(time_scale, \
+            self.sensors.getSensorsResponse(gen_dis_responses))
         pass
     
     def __getFactor(self, \
@@ -141,17 +144,21 @@ class Communicator:
         pass
     
     def __processSensorsFile(self, sensors_file: str) -> None:
-        # * flight test's things
         sensors_data: np.ndarray = np.loadtxt( \
             sensors_file, dtype=np.float64, skiprows=kSkip_Rows, ndmin=2) # ! ndim=2 is important!
-        flight_test_time_scale: np.ndarray = sensors_data.T[0]
+        if sensors_data.shape[0] == 0:
+            print("sensors data is empty.")
+            return None
+            pass
+        # * flight test's things
+        flight_test_time_scale: np.ndarray = sensors_data[:, 0]
         flight_test_time_scale -= flight_test_time_scale[0] # make the time scale start from 0
         latest_time: float = flight_test_time_scale[-1]
-        flight_test_sensors_responses: np.ndarray = sensors_data[:][1:].T
+        flight_test_sensors_responses: np.ndarray = sensors_data[:, 1:].T
         flight_test_compared_point_value: float = \
-            flight_test_sensors_responses[self.compared_point_sensors_index][-1]
-        flight_test_gen_dis_responses: np.ndarray = \
-            self.sensors.getGenDisResponse(flight_test_sensors_responses)
+            flight_test_sensors_responses[self.compared_point_sensors_index, -1]
+        flight_test_gen_dis_response: np.ndarray = \
+            self.sensors.getGenDisResponse(flight_test_sensors_responses[:, -1])
         # * simulation's things
         height_in, mach_in = getHAndMaFromSensorsFile(sensors_file)
         simulation_time_scale, simulation_gen_dis_responses, simulation_compared_point_value, \
@@ -161,7 +168,8 @@ class Communicator:
         factor: float = self.__getFactor(\
             flight_test_compared_point_value, simulation_compared_point_value)
         # * update
-        self.__updateFlightTest(flight_test_time_scale, flight_test_gen_dis_responses, factor)
+        self.__updateFlightTest(flight_test_time_scale, flight_test_gen_dis_response, \
+            factor, flight_test_sensors_responses)
         self.__updateSimulation(simulation_time_scale, simulation_gen_dis_responses)
         # TODO: this is only for the friday's meeting
         print("height: " + str(height) + ", mach: " + str(mach) + ", factor: " + str(factor))
@@ -170,13 +178,7 @@ class Communicator:
     def callBackForWatchDog(self, event_src_path: str) -> None:
         pure_file_name: str = event_src_path.split('\\')[-1].split('/')[-1]
         if isWatchDogSensorsFile(pure_file_name) == True:
-            print(event_src_path)
-            try:
-                self.__processSensorsFile(event_src_path)
-                pass
-            except:
-                print("failed to process the sensors file.")
-                pass
+            self.__processSensorsFile(event_src_path)
             pass
         pass
     

@@ -148,11 +148,12 @@ class SimulationDatabase:
     def getDataAtGivenTime(self, \
         height_in: np.float64, mach_in: np.float64, latest_time: np.float64) -> tuple:
         data, height, mach = self.getDatabaseDictData(height_in, mach_in)
-        time_scale: np.float64 = data.T[0]
+        time_scale: np.float64 = data[:, 0]
         cloest_time_index: int = np.argmin(np.abs(time_scale - latest_time))
-        gen_dis_responses: np.ndarray = data[: cloest_time_index+1][1: self.compared_point_index].T
-        compared_point_value: float = data[cloest_time_index][self.compared_point_index]
-        return (time_scale, gen_dis_responses, compared_point_value, height, mach)
+        time_scale = time_scale[0: cloest_time_index+1]
+        gen_dis_responses: np.ndarray = data[: cloest_time_index+1, 1: self.compared_point_index]
+        compared_point_value: float = data[cloest_time_index, self.compared_point_index]
+        return (time_scale, gen_dis_responses.T/9.8, compared_point_value/9.8, height, mach)
         pass
     
     # ---------------------------------------------------------------------------------------------

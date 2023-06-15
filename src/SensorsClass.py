@@ -58,6 +58,10 @@ class Sensors:
         return np.linalg.lstsq(self.mode_dis_matrix, sensors_response, rcond=None)[0]
         pass
     
+    def getSensorsResponse(self, gen_dis_response: np.ndarray) -> np.ndarray:
+        return self.mode_dis_matrix @ gen_dis_response
+        pass
+    
     # ---------------------------------------------------------------------------------------------
     
     pass

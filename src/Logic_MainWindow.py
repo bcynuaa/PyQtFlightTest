@@ -77,13 +77,13 @@ class MainWindow(Ui_MainWindow, QMainWindow):
     
     def __loadSimulationDatabase(self) -> None:
         database_path: str = QFileDialog.getExistingDirectory(self, \
-            "选取模型数据文件路径(存有SIMULATIONxxx.dat)", kRelative_Path)
+            "选取仿真数据文件路径(存有SIMULATIONxxx.dat)", kRelative_Path)
         try:
             self.communicator.simulation_database.loadDatabaseFromPath(database_path)
             self.__writeToInfoTextBrowser( \
-                "成功从路径 '" + database_path + "' 加载气动数据库文件")
+                "成功从路径 '" + database_path + "' 加载仿真数据库文件")
             self.__writeToInfoTextBrowser( \
-                "气动数据库文件信息\n" + self.communicator.simulation_database.getInfo())
+                "仿真数据库文件信息\n" + self.communicator.simulation_database.getInfo())
             pass
         except:
             QMessageBox.critical(self, \
@@ -93,16 +93,16 @@ class MainWindow(Ui_MainWindow, QMainWindow):
     
     def __loadSensorsPoints(self) -> None:
         sensors_mode_dis_file, okpressed = QFileDialog.getOpenFileName(self, \
-            "选取指定的传感器模态位移文件", kRelative_Path, "(*" + kData_File_Format + ")")
+            "选取传感器映射信息文件", kRelative_Path, "(*" + kData_File_Format + ")")
         if okpressed == False:
             return
         else:
             try:
                 self.communicator.sensors.loadSensorsModeDisFile(sensors_mode_dis_file)
                 self.__writeToInfoTextBrowser( \
-                    "成功从文件 '" + sensors_mode_dis_file + "' 加载传感器模态位移数据")
+                    "成功从文件 '" + sensors_mode_dis_file + "' 加载传感器映射信息")
                 self.__writeToInfoTextBrowser( \
-                    "传感器模态位移数据信息\n" + self.communicator.sensors.getInfo())
+                    "传感器映射信息\n" + self.communicator.sensors.getInfo())
                 pass
             except:
                 QMessageBox.critical(self, \
