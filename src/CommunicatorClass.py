@@ -37,6 +37,7 @@ class Communicator:
         self.simulation_database: SimulationDatabase = SimulationDatabase()
         self.domains_with_gen_dis: DomainsWithGenDis = DomainsWithGenDis()
         self.sensors: Sensors = Sensors()
+        self.watchdog: WatchDog = WatchDog()
         self.__initializePyvistaPlotter()
         self.__initializeMatplotlibCanvas()
         pass
@@ -141,8 +142,8 @@ class Communicator:
     
     def __processSensorsFile(self, sensors_file: str) -> None:
         # * flight test's things
-        height_in, mach_in = getHAndMaFromSensorsFile(sensors_file)
-        sensors_data: np.ndarray = np.loadtxt(sensors_file, dtype=np.float64, skiprows=kSkip_Rows)
+        sensors_data: np.ndarray = np.loadtxt( \
+            sensors_file, dtype=np.float64, skiprows=kSkip_Rows, ndmin=2) # ! ndim=2 is important!
         flight_test_time_scale: np.ndarray = sensors_data.T[0]
         flight_test_time_scale -= flight_test_time_scale[0] # make the time scale start from 0
         latest_time: float = flight_test_time_scale[-1]
@@ -152,10 +153,11 @@ class Communicator:
         flight_test_gen_dis_responses: np.ndarray = \
             self.sensors.getGenDisResponse(flight_test_sensors_responses)
         # * simulation's things
+        height_in, mach_in = getHAndMaFromSensorsFile(sensors_file)
         simulation_time_scale, simulation_gen_dis_responses, simulation_compared_point_value, \
             height, mach = self.simulation_database.getDataAtGivenTime( \
                 height_in, mach_in, latest_time)
-        # factor
+        # * factor
         factor: float = self.__getFactor(\
             flight_test_compared_point_value, simulation_compared_point_value)
         # * update
@@ -168,12 +170,19 @@ class Communicator:
     def callBackForWatchDog(self, event_src_path: str) -> None:
         pure_file_name: str = event_src_path.split('\\')[-1].split('/')[-1]
         if isWatchDogSensorsFile(pure_file_name) == True:
-            self.__processSensorsFile(event_src_path)
+            print(event_src_path)
+            try:
+                self.__processSensorsFile(event_src_path)
+                pass
+            except:
+                print("failed to process the sensors file.")
+                pass
             pass
         pass
     
     def feedWatchDog(self, eyesore_path: str) -> None:
-        self.watchdog: WatchDog = WatchDog(eyesore_path, self.callBackForWatchDog)
+        self.watchdog.feed(eyesore_path, self.callBackForWatchDog)
+        print("feeded")
         pass
     
     # ---------------------------------------------------------------------------------------------

@@ -34,12 +34,8 @@ class ModifiedHandler(FileSystemEventHandler):
 
 class WatchDog:
     
-    def __init__(self, eyesore_path: str, sleep_time: float = kSleep_Time, callback=callbackNone) -> None:
-        self.eyesore_path: str = eyesore_path
+    def __init__(self, sleep_time: float = kSleep_Time) -> None:
         self.sleep_time: float = sleep_time
-        self.modified_handler: ModifiedHandler = ModifiedHandler(callback)
-        self.observer: Observer = Observer()
-        self.observer.schedule(self.modified_handler, self.eyesore_path, recursive=True)
         self.working: bool = False
         pass
     
@@ -47,8 +43,15 @@ class WatchDog:
         self.sleep_time = sleep_time
         pass
     
-    def wakeUp(self) -> None:
+    def feed(self, eyesore_path: str, callback=callbackNone) -> None:
+        self.eyesore_path: str = eyesore_path
+        self.modified_handler: ModifiedHandler = ModifiedHandler(callback)
+        self.observer: Observer = Observer()
+        self.observer.schedule(self.modified_handler, self.eyesore_path, recursive=True)
         self.working = True
+        pass
+    
+    def wakeUp(self) -> None:
         self.observer.start()
         try:
             while self.working == True:

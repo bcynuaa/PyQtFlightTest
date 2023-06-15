@@ -153,6 +153,7 @@
     <property name="title">
      <string>Option</string>
     </property>
+    <addaction name="actionStart_Updating"/>
    </widget>
    <widget class="QMenu" name="menuTools">
     <property name="title">
@@ -183,6 +184,11 @@
   <action name="actionLoad_Eyesore_Path">
    <property name="text">
     <string>Load Eyesore Path</string>
+   </property>
+  </action>
+  <action name="actionStart_Updating">
+   <property name="text">
+    <string>Start Updating</string>
    </property>
   </action>
  </widget>

@@ -55,6 +55,8 @@ class MainWindow(Ui_MainWindow, QMainWindow):
         self.actionLoad_Sensors_Points.triggered.connect(self.__loadSensorsPoints)
         # TODO: this is only for Friday's meeting
         self.actionLoad_Eyesore_Path.triggered.connect(self.__loadEyesorePath)
+        # TODO: this is only for Friday's meeting
+        self.actionStart_Updating.triggered.connect(self.__startUpdating)
         pass
     
     def __loadDomains(self) -> None:
@@ -109,7 +111,8 @@ class MainWindow(Ui_MainWindow, QMainWindow):
             pass
         pass
     
-    # TODO: this is only for Friday's meeting
+    # TODO: below is only for Friday's meeting
+    
     def __loadEyesorePath(self) -> None:
         eyesore_path: str = QFileDialog.getExistingDirectory(self, \
             "选取将会更新传感器信号文件的路径，并尽可能后续保证该路径整洁", kRelative_Path)
@@ -214,7 +217,14 @@ class MainWindow(Ui_MainWindow, QMainWindow):
     
     # ---------------------------------------------------------------------------------------------
     
+    # TODO: below is only for Friday's meeting
     
+    def __startUpdating(self) -> None:
+        print("start updating")
+        import threading
+        self.update_thread = threading.Thread(target=self.communicator.watchdog.wakeUp)
+        self.update_thread.start()
+        pass
     
     # ---------------------------------------------------------------------------------------------
     

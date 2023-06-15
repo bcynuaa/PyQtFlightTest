@@ -51,8 +51,8 @@ def isWatchDogSensorsFile(pure_file_name: str) -> bool:
         return False
         pass
     # TODO the format should be under discussion in meeting on Friday
-    # the file should look like "testdat01.dat"
-    pattern: str = re.compile(r"[Tt][Ee][Ss][Tt][Dd][Aa][Tt]\d+" + kData_File_Format)
+    # the file should look like "testdata01.dat"
+    pattern: str = re.compile(r"[Tt][Ee][Ss][Tt][Dd][Aa][Tt][Aa]\d+" + kData_File_Format)
     whether_match = re.match(pattern, pure_file_name)
     if whether_match == None:
         return False
