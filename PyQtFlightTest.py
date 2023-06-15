@@ -27,7 +27,7 @@ if __name__ == "__main__":
     # from qt_material import list_themes
     # list_themes()
     apply_stylesheet(app, theme="light_blue.xml")
-    window = MainWindow()
+    window: MainWindow = MainWindow()
     window.show()
     sys.exit(app.exec_())
     pass

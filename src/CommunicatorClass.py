@@ -127,11 +127,11 @@ class Communicator:
         self.flight_test_time_domain_canvas.plot(time_scale, flight_test_sensors_responses)
         pass
     
-    def __updateSimulation(self, time_scale, gen_dis_responses: np.ndarray) -> None:
+    def __updateSimulation(self, time_scale, simulation_gen_dis_responses: np.ndarray) -> None:
         self.domains_with_gen_dis.addGenDisToUnstructuredGrid( \
-            self.simulation_grid, gen_dis_responses[:, -1], self.basic_magnification)
+            self.simulation_grid, simulation_gen_dis_responses[:, -1], self.basic_magnification)
         self.simulation_time_domain_canvas.plot(time_scale, \
-            self.sensors.getSensorsResponse(gen_dis_responses))
+            self.sensors.getSensorsResponse(simulation_gen_dis_responses))
         pass
     
     def __getFactor(self, \
@@ -172,13 +172,15 @@ class Communicator:
             factor, flight_test_sensors_responses)
         self.__updateSimulation(simulation_time_scale, simulation_gen_dis_responses)
         # TODO: this is only for the friday's meeting
-        print("height: " + str(height) + ", mach: " + str(mach) + ", factor: " + str(factor))
+        print("simulation database:\nheight: " \
+            + str(height) + ", mach: " + str(mach) + ", factor: " + str(factor))
         pass
     
     def callBackForWatchDog(self, event_src_path: str) -> None:
         pure_file_name: str = event_src_path.split('\\')[-1].split('/')[-1]
         if isWatchDogSensorsFile(pure_file_name) == True:
             self.__processSensorsFile(event_src_path)
+            print("change detected: " + pure_file_name, ", but not formatted.")
             pass
         pass
     

@@ -153,7 +153,7 @@ class SimulationDatabase:
         time_scale = time_scale[0: cloest_time_index+1]
         gen_dis_responses: np.ndarray = data[: cloest_time_index+1, 1: self.compared_point_index]
         compared_point_value: float = data[cloest_time_index, self.compared_point_index]
-        return (time_scale, gen_dis_responses.T/9.8, compared_point_value/9.8, height, mach)
+        return (time_scale, gen_dis_responses.T, compared_point_value, height, mach)
         pass
     
     # ---------------------------------------------------------------------------------------------
