@@ -17,7 +17,9 @@ from config.Name import kScalarsList, kDefault_Scalar, kSplit_Line
 from config.PyvistaSettings import *
 
 from utils.RegularExpression import getDomainFilesList
+from utils.Timer import timer
 
+@timer
 class DomainsWithGenDis:
     
     """this class of domains with general displacement
@@ -121,6 +123,7 @@ class DomainsWithGenDis:
         return unstructured_grid
         pass
     
+    @timer
     def addGenDisToUnstructuredGrid(self, unstructured_grid: pyvista.UnstructuredGrid, \
         gen_dis_response: np.ndarray, magnification: float = 0.01) -> None:
         gen_dis: np.ndarray = self.getGenDis(gen_dis_response)

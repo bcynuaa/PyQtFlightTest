@@ -12,6 +12,8 @@ import numpy as np
 
 from config.Name import kSplit_Line
 
+from utils.Timer import timer
+
 class Sensors:
     
     """the class of sensors
@@ -54,6 +56,7 @@ class Sensors:
     
     # ---------------------------------------------------------------------------------------------
     
+    @timer
     def getGenDisResponse(self, sensors_response: np.ndarray) -> np.ndarray:
         return np.linalg.lstsq(self.mode_dis_matrix, sensors_response, rcond=None)[0]
         pass

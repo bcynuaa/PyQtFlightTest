@@ -14,6 +14,8 @@ from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from config.Name import *
 from config.MatplotlibSettings import *
 
+from utils.Timer import timer
+
 class MatplotlibCanvas:
     
     # ---------------------------------------------------------------------------------------------
@@ -54,6 +56,7 @@ class MatplotlibCanvas:
     
     pass
 
+@timer
 class TimeDomainCanvas(MatplotlibCanvas):
     
     # ---------------------------------------------------------------------------------------------
@@ -66,6 +69,7 @@ class TimeDomainCanvas(MatplotlibCanvas):
     
     # ---------------------------------------------------------------------------------------------
     
+    @timer
     def plot(self, x: np.ndarray, y: np.ndarray) -> None:
         self.axes.clear()
         if y.ndim == 1:

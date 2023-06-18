@@ -15,6 +15,7 @@ from config.MatplotlibSettings import *
 
 from utils.RegularExpression import isWatchDogSensorsFile, getHAndMaFromSensorsFile
 from utils.Observer import WatchDog # TODO: this is a temporary solution, need to be improved
+from utils.Timer import timer # TODO: this is a temporary solution, need to be improved
 
 from src.SimulationDatabaseClass import SimulationDatabase
 from src.DomainsWithGenDisClass import DomainsWithGenDis
@@ -23,6 +24,7 @@ from src.MatplotlibCanvasClass import *
 
 kSkip_Rows: int = 1
 
+@timer
 class Communicator:
     
     # ---------------------------------------------------------------------------------------------
@@ -120,6 +122,7 @@ class Communicator:
     
     # TODO: below is only for the friday's meeting
     
+    @timer
     def __updateFlightTest(self, time_scale, flight_test_gen_dis_response: np.ndarray, \
         factor: float, flight_test_sensors_responses: np.ndarray) -> None:
         self.domains_with_gen_dis.addGenDisToUnstructuredGrid( \
@@ -127,6 +130,7 @@ class Communicator:
         self.flight_test_time_domain_canvas.plot(time_scale, flight_test_sensors_responses)
         pass
     
+    @timer
     def __updateSimulation(self, time_scale, simulation_gen_dis_responses: np.ndarray) -> None:
         self.domains_with_gen_dis.addGenDisToUnstructuredGrid( \
             self.simulation_grid, simulation_gen_dis_responses[:, -1], self.basic_magnification)
@@ -143,6 +147,7 @@ class Communicator:
             pass
         pass
     
+    @timer
     def __processSensorsFile(self, sensors_file: str) -> None:
         sensors_data: np.ndarray = np.loadtxt( \
             sensors_file, dtype=np.float64, skiprows=kSkip_Rows, ndmin=2) # ! ndim=2 is important!
