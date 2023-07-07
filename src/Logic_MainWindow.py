@@ -8,6 +8,7 @@
  # @ description: the class of logic of main window
  '''
 
+import json
 from PySide2.QtCore import *
 from PySide2.QtGui import *
 from PySide2.QtWidgets import *
@@ -182,16 +183,16 @@ class MainWindow(Ui_MainWindow, QMainWindow):
         self.main_page_flight_test_tab_widget.setTabText(0, kTab_Name_Time_Domain)
         self.main_page_flight_test_time_domain_matplotlib_tab_layout = QVBoxLayout( \
             self.main_page_flight_test_time_tab)
-        self.main_page_flight_test_time_domain_matplotlib_tab_layout.addWidget( \
-            self.communicator.flight_test_time_domain_canvas.toolbar)
+        # self.main_page_flight_test_time_domain_matplotlib_tab_layout.addWidget( \
+        #     self.communicator.flight_test_time_domain_canvas.toolbar)
         self.main_page_flight_test_time_domain_matplotlib_tab_layout.addWidget( \
             self.communicator.flight_test_time_domain_canvas.canvas)
         # * flight test frequency tab
         self.main_page_flight_test_tab_widget.setTabText(1, kTab_Name_Frequency_Domain)
         self.main_page_flight_test_frequency_domain_matplotlib_tab_layout = QVBoxLayout( \
             self.main_page_flight_test_frequency_tab)
-        self.main_page_flight_test_frequency_domain_matplotlib_tab_layout.addWidget( \
-            self.communicator.flight_test_frequency_domain_canvas.toolbar)
+        # self.main_page_flight_test_frequency_domain_matplotlib_tab_layout.addWidget( \
+        #     self.communicator.flight_test_frequency_domain_canvas.toolbar)
         self.main_page_flight_test_frequency_domain_matplotlib_tab_layout.addWidget( \
             self.communicator.flight_test_frequency_domain_canvas.canvas)
         # * simulation tabs
@@ -201,16 +202,16 @@ class MainWindow(Ui_MainWindow, QMainWindow):
         self.main_page_simulation_tab_widget.setTabText(0, kTab_Name_Time_Domain)
         self.main_page_simulation_time_tab_layout = QVBoxLayout( \
             self.main_page_simulation_time_tab)
-        self.main_page_simulation_time_tab_layout.addWidget( \
-            self.communicator.simulation_time_domain_canvas.toolbar)
+        # self.main_page_simulation_time_tab_layout.addWidget( \
+        #     self.communicator.simulation_time_domain_canvas.toolbar)
         self.main_page_simulation_time_tab_layout.addWidget( \
             self.communicator.simulation_time_domain_canvas.canvas)
         # * simulation frequency tab
         self.main_page_simulation_tab_widget.setTabText(1, kTab_Name_Frequency_Domain)
         self.main_page_simulation_frequency_tab_layout = QVBoxLayout( \
             self.main_page_simulation_frequency_tab)
-        self.main_page_simulation_frequency_tab_layout.addWidget( \
-            self.communicator.simulation_frequency_domain_canvas.toolbar)
+        # self.main_page_simulation_frequency_tab_layout.addWidget( \
+        #     self.communicator.simulation_frequency_domain_canvas.toolbar)
         self.main_page_simulation_frequency_tab_layout.addWidget( \
             self.communicator.simulation_frequency_domain_canvas.canvas)
         pass
@@ -232,6 +233,19 @@ class MainWindow(Ui_MainWindow, QMainWindow):
         # ref:
         # https://blog.csdn.net/weixin_43930603/article/details/104938939
         self.communicator.close()
+        pass
+    
+    # ---------------------------------------------------------------------------------------------
+    
+    # July branch
+    
+    def loadJsonFile(self, json_file: str) -> None:
+        json_data: dict = json.load(open(json_file, "r"))
+        self.communicator.loadDomainFilesFromPath(json_data["domains path"])
+        self.communicator.simulation_database.loadDatabaseFromPath(json_data["simulation database path"])
+        self.communicator.sensors.loadSensorsModeDisFile(json_data["sensor mapping file"])
+        self.communicator.feedWatchDog(json_data["eyesore path"])
+        self.communicator.compared_point_sensors_index = json_data["compared point number"] - 1
         pass
     
     # ---------------------------------------------------------------------------------------------

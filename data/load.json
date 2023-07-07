@@ -1,0 +1,7 @@
+{
+    "domains path": "..//..//TestData//ProjectFlightTestJuly//Domain",
+    "simulation database path": "..//..//TestData//ProjectFlightTestJuly//SimulationDatabase",
+    "sensor mapping file": "..//..//TestData//ProjectFlightTestJuly//SensorInfoForMapping//sensor_vbshape.dat",
+    "eyesore path": "..//..//TestData//ProjectFlightTestJuly//FlightTest",
+    "compared point number": 1 
+}

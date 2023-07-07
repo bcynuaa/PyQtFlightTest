@@ -23,9 +23,8 @@ pyvista.global_theme.cmap = "jet"
 pyvista.global_theme.opacity = 0.6
 pyvista.global_theme.color = "white"
 
-pyvista.global_theme.show_edges = True
+# pyvista.global_theme.show_edges = True
 pyvista.global_theme.axes.show = True
 pyvista.global_theme.show_scalar_bar = True
-pyvista.global_theme.axes.show = True
 
 print("config: Pyvista settings have been finished.")

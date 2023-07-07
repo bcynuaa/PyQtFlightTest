@@ -29,5 +29,8 @@ if __name__ == "__main__":
     apply_stylesheet(app, theme="light_blue.xml")
     window: MainWindow = MainWindow()
     window.show()
+    if os.path.exists("data//load.json"):
+        window.loadJsonFile("data//load.json")
+        pass
     sys.exit(app.exec_())
     pass
