@@ -8,6 +8,7 @@
  # @ description: the class of communicator, which is a middle layer between the GUI and the backend
  '''
  
+import numpy as np
 from pyvistaqt import QtInteractor, BackgroundPlotter
 
 from config.PyvistaSettings import *
@@ -20,7 +21,8 @@ from utils.Timer import timer # TODO: this is a temporary solution, need to be i
 from src.SimulationDatabaseClass import SimulationDatabase
 from src.DomainsWithGenDisClass import DomainsWithGenDis
 from src.SensorsClass import Sensors
-from src.MatplotlibCanvasClass import *
+# from src.MatplotlibCanvasClass import *
+from src.PyQtGraphCanvas import *
 
 kSkip_Rows: int = 1
 
@@ -55,9 +57,9 @@ class Communicator:
     
     def __initializeMatplotlibCanvas(self) -> None:
         self.flight_test_time_domain_canvas: TimeDomainCanvas = TimeDomainCanvas()
-        self.flight_test_frequency_domain_canvas: FrequencyDomainCanvas = FrequencyDomainCanvas()
+        # self.flight_test_frequency_domain_canvas: FrequencyDomainCanvas = FrequencyDomainCanvas()
         self.simulation_time_domain_canvas: TimeDomainCanvas = TimeDomainCanvas()
-        self.simulation_frequency_domain_canvas: FrequencyDomainCanvas = FrequencyDomainCanvas()
+        # self.simulation_frequency_domain_canvas: FrequencyDomainCanvas = FrequencyDomainCanvas()
         pass
     
     # ---------------------------------------------------------------------------------------------
@@ -108,6 +110,9 @@ class Communicator:
     def loadSensorsModeDisFile(self, sensors_mode_dis_file: str) -> None:
         self.sensors.loadSensorsModeDisFile(sensors_mode_dis_file)
         self.whether_sensors_mode_dis_loaded = True
+        # ? below is only for the July meeting
+        self.flight_test_time_domain_canvas.initializeCurves(self.sensors.n_sensors)
+        self.simulation_time_domain_canvas.initializeCurves(self.sensors.n_sensors)
         pass
     
     # ---------------------------------------------------------------------------------------------
