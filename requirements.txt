@@ -13,3 +13,4 @@ imageio-ffmpeg==0.4.5
 watchdog==2.1.6
 qt_material==2.8.1
 pyqtgraph==0.13.3
+pglive==0.1.0

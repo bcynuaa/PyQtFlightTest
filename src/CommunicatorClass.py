@@ -67,7 +67,7 @@ class Communicator:
     def __addMeshToPlotter(self, plotter: QtInteractor, mesh) -> None:
         plotter.add_mesh(mesh, \
             opacity=pyvista.global_theme.opacity, \
-                cmap=pyvista.global_theme.cmap, clim=[-10, 10])
+                cmap=pyvista.global_theme.cmap, clim=[-5, 5])
         plotter.add_axes()
         plotter.add_bounding_box()
         plotter.show_grid()

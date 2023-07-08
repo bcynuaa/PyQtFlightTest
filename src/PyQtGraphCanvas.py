@@ -11,6 +11,10 @@
 import numpy as np
 import pyqtgraph as pg
 
+from pglive.sources.live_plot_widget import LivePlotWidget
+from pglive.sources.live_plot import LiveLinePlot
+from pglive.sources.data_connector import DataConnector
+
 max_length: int = 2000
 
 # give me 50 different colors' lists in pyqtgraph
@@ -30,38 +34,68 @@ colors_list: list = [
 class TimeDomainCanvas:
     
     def __init__(self) -> None:
-        self.canvas: pg.PlotWidget = pg.PlotWidget(enableMenu=True, background=pg.mkColor(255, 255, 255))
+        # self.canvas: pg.PlotWidget = pg.PlotWidget(enableMenu=True, background=pg.mkColor(255, 255, 255))
+        self.canvas: LivePlotWidget = LivePlotWidget(enableMenu=True, background=pg.mkColor(255, 255, 255))
         self.canvas.enableMouse(False)
         pass
     
     def initializeCurves(self, n_curves: int) -> None:
-        # x: np.ndarray = np.linspace(0, 10, 101)
-        # y: np.ndarray = np.sin(x)
         self.curves: list = []
-        self.n_curves: int = n_curves
+        self.data_connectors: list = []
         for i in range(n_curves):
-            # alpha should be
-            curve: pg.PlotCurveItem = pg.PlotCurveItem(
-                pen=(
-                    {"color": colors_list[i], "width": 1}
-                ),
-                skipFiniteCheck=True
-            )
+            curve: LiveLinePlot = LiveLinePlot(
+                    pen=({"color": colors_list[i], "width": 1}),
+                    skipFiniteCheck=True)
+            data_connector: DataConnector = DataConnector(curve, max_points=max_length)
             self.canvas.addItem(curve)
-            # curve.setData(x, y+i)
             self.curves.append(curve)
+            self.data_connectors.append(data_connector)
+            # data_connector.cb_set_data(
             pass
-        print("initialize curves")
         pass
     
     def plot(self, x: np.ndarray, y: np.ndarray) -> None:
         # clear curves
-        for i in range(self.n_curves):
+        for i in range(len(self.curves)):
             self.curves[i].clear()
             length: int = min(max_length, len(x))
-            self.curves[i].setData(x[len(x)-length: len(x)], y[i][len(x)-length: len(x)])
-            pass
-        self.canvas.setRange(xRange=[x[len(x)-length], x[len(x)-1]], update=True)
+            self.data_connectors[i].cb_set_data(y[i][len(x)-length: len(x)], x[len(x)-length: len(x)])
+            pass       
         pass
+    
+    # def initializeCurves(self, n_curves: int) -> None:
+    #     # x: np.ndarray = np.linspace(0, 10, 101)
+    #     # y: np.ndarray = np.sin(x)
+    #     self.curves: list = []
+    #     self.n_curves: int = n_curves
+    #     for i in range(n_curves):
+    #         # alpha should be
+    #         curve: pg.PlotCurveItem = pg.PlotCurveItem(
+    #             pen=(
+    #                 {"color": colors_list[i], "width": 1}
+    #             ),
+    #             skipFiniteCheck=True
+    #         )
+    #         # curve: LiveLinePlot = LiveLinePlot(
+    #         #     pen=(
+    #         #         {"color": colors_list[i], "width": 1}),
+    #         #         skipFiniteCheck=True
+    #         # )
+    #         self.canvas.addItem(curve)
+    #         # curve.setData(x, y+i)
+    #         self.curves.append(curve)
+    #         pass
+    #     print("initialize curves")
+    #     pass
+    
+    # def plot(self, x: np.ndarray, y: np.ndarray) -> None:
+    #     # clear curves
+    #     for i in range(self.n_curves):
+    #         self.curves[i].clear()
+    #         length: int = min(max_length, len(x))
+    #         self.curves[i].setData(x[len(x)-length: len(x)], y[i][len(x)-length: len(x)])
+    #         pass
+    #     self.canvas.setRange(xRange=[x[len(x)-length], x[len(x)-1]], update=True)
+    #     pass
     
     pass

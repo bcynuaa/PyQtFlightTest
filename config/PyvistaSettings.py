@@ -20,7 +20,7 @@ pyvista.global_theme.font.title_size = 40.0
 pyvista.global_theme.font.family = "times"
 
 pyvista.global_theme.cmap = "jet"
-pyvista.global_theme.opacity = 0.6
+pyvista.global_theme.opacity = 0.9
 pyvista.global_theme.color = "white"
 
 # pyvista.global_theme.show_edges = True
