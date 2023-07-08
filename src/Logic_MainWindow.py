@@ -247,6 +247,7 @@ class MainWindow(Ui_MainWindow, QMainWindow):
         self.communicator.loadSensorsModeDisFile(json_data["sensor mapping file"])
         self.communicator.feedWatchDog(json_data["eyesore path"])
         self.communicator.compared_point_sensors_index = json_data["compared point number"] - 1
+        self.communicator.basic_magnification *= json_data["magnification"]
         pass
     
     # ---------------------------------------------------------------------------------------------

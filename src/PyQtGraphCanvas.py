@@ -11,6 +11,8 @@
 import numpy as np
 import pyqtgraph as pg
 
+max_length: int = 2000
+
 # give me 50 different colors' lists in pyqtgraph
 
 colors_list: list = [
@@ -33,8 +35,8 @@ class TimeDomainCanvas:
         pass
     
     def initializeCurves(self, n_curves: int) -> None:
-        x: np.ndarray = np.linspace(0, 10, 101)
-        y: np.ndarray = np.sin(x)
+        # x: np.ndarray = np.linspace(0, 10, 101)
+        # y: np.ndarray = np.sin(x)
         self.curves: list = []
         self.n_curves: int = n_curves
         for i in range(n_curves):
@@ -46,7 +48,7 @@ class TimeDomainCanvas:
                 skipFiniteCheck=True
             )
             self.canvas.addItem(curve)
-            curve.setData(x, y+i)
+            # curve.setData(x, y+i)
             self.curves.append(curve)
             pass
         print("initialize curves")
@@ -56,9 +58,10 @@ class TimeDomainCanvas:
         # clear curves
         for i in range(self.n_curves):
             self.curves[i].clear()
-            self.curves[i].setData(x, y[i])
+            length: int = min(max_length, len(x))
+            self.curves[i].setData(x[len(x)-length: len(x)], y[i][len(x)-length: len(x)])
             pass
-        self.canvas.setXRange(x[0], x[-1], update=True)
+        self.canvas.setRange(xRange=[x[len(x)-length], x[len(x)-1]], update=True)
         pass
     
     pass
