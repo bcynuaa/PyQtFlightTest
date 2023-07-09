@@ -17,7 +17,9 @@ a = Analysis(
         os.getcwd(),
     ],
     binaries=[],
-    datas=[],
+    datas=[
+        "data//load.json"
+    ],
     hiddenimports=[
         'numpy',
         'matplotlib',
