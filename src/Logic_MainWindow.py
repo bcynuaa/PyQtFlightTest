@@ -248,6 +248,13 @@ class MainWindow(Ui_MainWindow, QMainWindow):
         self.communicator.feedWatchDog(json_data["eyesore path"])
         self.communicator.compared_point_sensors_index = json_data["compared point number"] - 1
         self.communicator.basic_magnification *= json_data["magnification"]
+        self.communicator.curve_index_list = json_data["curve number list"]
+        self.communicator.curve_index_list = [i - 1 for i in self.communicator.curve_index_list]
+        # ? below is only for the July meeting
+        self.communicator.flight_test_time_domain_canvas.initializeCurves(len(self.communicator.curve_index_list))
+        self.communicator.simulation_time_domain_canvas.initializeCurves(len(self.communicator.curve_index_list))
+        self.__writeToInfoTextBrowser( \
+            "successfully load json file '" + json_file + "'")
         pass
     
     # ---------------------------------------------------------------------------------------------
