@@ -35,6 +35,7 @@ class Communicator:
         self.basic_magnification: float = 0.01 # TODO: this is only for the friday's meeting
         self.critical_value: float = 0.1 # TODO: this is only for the friday's meeting
         self.compared_point_sensors_index: int = 0 # TODO: this is only for the friday's meeting
+        self.curve_index_list: list = [1, 2, 3, 4]
         self.whether_database_loaded: bool = False
         self.whether_domains_loaded: bool = False
         self.whether_sensors_mode_dis_loaded: bool = False
@@ -110,9 +111,6 @@ class Communicator:
     def loadSensorsModeDisFile(self, sensors_mode_dis_file: str) -> None:
         self.sensors.loadSensorsModeDisFile(sensors_mode_dis_file)
         self.whether_sensors_mode_dis_loaded = True
-        # ? below is only for the July meeting
-        self.flight_test_time_domain_canvas.initializeCurves(self.sensors.n_sensors)
-        self.simulation_time_domain_canvas.initializeCurves(self.sensors.n_sensors)
         pass
     
     # ---------------------------------------------------------------------------------------------
@@ -132,7 +130,7 @@ class Communicator:
         factor: float, flight_test_sensors_responses: np.ndarray) -> None:
         self.domains_with_gen_dis.addGenDisToUnstructuredGrid( \
             self.flight_test_grid, flight_test_gen_dis_response, self.basic_magnification * factor)
-        self.flight_test_time_domain_canvas.plot(time_scale, flight_test_sensors_responses)
+        self.flight_test_time_domain_canvas.plot(time_scale, flight_test_sensors_responses[self.curve_index_list, :])
         pass
     
     @timer
@@ -140,7 +138,7 @@ class Communicator:
         self.domains_with_gen_dis.addGenDisToUnstructuredGrid( \
             self.simulation_grid, simulation_gen_dis_responses[:, -1], self.basic_magnification)
         self.simulation_time_domain_canvas.plot(time_scale, \
-            self.sensors.getSensorsResponse(simulation_gen_dis_responses))
+            self.sensors.getSensorsResponse(simulation_gen_dis_responses)[self.curve_index_list, :])
         pass
     
     def __getFactor(self, \

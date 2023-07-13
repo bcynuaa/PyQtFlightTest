@@ -4,5 +4,6 @@
     "sensor mapping file": "..//..//TestData//ProjectFlightTestJuly//SensorInfoForMapping//sensor_vbshape.dat",
     "eyesore path": "..//..//TestData//ProjectFlightTestJuly//FlightTest",
     "compared point number": 1,
-    "magnification": 1
+    "magnification": 1,
+    "curve number list": [1, 2] 
 }
